@@ -40,6 +40,10 @@ mmcblk0     179:0    0  14.9G  0 disk
 
 From now on, all writes will be direct to you ssd storage (specifically to the <portable partition>/overlays directory).
 
+# How to disable it
+
+* remove "init=/sbin/overlayRoot.sh" from /boot/cmdline.txt
+* reboot 
 
 # Reference 
 
