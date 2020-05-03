@@ -1,5 +1,5 @@
 #!/bin/sh
-#  Read-only Root-FS for Raspian using overlayfs
+#  Read-only Root-FS for Raspian using overlayfs and ssd
 #  Version 1.1
 #
 #  Version History:
@@ -12,6 +12,11 @@
 #  Created 2017 by Pascal Suter @ DALCO AG, Switzerland to work on Raspian as custom init script
 #  (raspbian does not use an initramfs on boot)
 #
+#  2.0: only support original root partition labeld by 'rootfs' and ssd partition labeld by 'portable'.
+#       All writes are directed to 'portable' ssd partition so you can use your Raspian as a normal server.
+#
+#  Adapted 2020 by James Zhang to make Raspberry an low cost server for NAS and more.
+# 
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 3 of the License, or
@@ -27,31 +32,25 @@
 #    <http://www.gnu.org/licenses/>.
 #
 #
-#  Tested with Raspbian mini, 2018-10-09
+#  Tested with Raspbian GNU/Linux 10 (buster) on Raspberry Pi 4, in May 2020
 #
-#  This script will mount the root filesystem read-only and overlay it with a temporary tempfs
-#  which is read-write mounted. This is done using the overlayFS which is part of the linux kernel
-#  since version 3.18.
-#  when this script is in use, all changes made to anywhere in the root filesystem mount will be lost
-#  upon reboot of the system. The SD card will only be accessed as read-only drive, which significantly
+#  This script will mount the root filesystem read-only and overlay it with a directory 
+#  on a partition, labeld with "portable", which is read-write mounted. 
+#  This is done using the overlayFS which is part of the linux kernel since version 3.18.
+#  when this script is in use, all changes made to anywhere in the root filesystem mount will be 
+#  directed to overlays directory on the "portable" partition and will be kept permanently.
+#  The io perforamance of the system will be much higher with a ssd partition.
+#  The SD card will only be accessed as read-only drive, which significantly
 #  helps to prolong its life and prevent filesystem coruption in environments where the system is usually
 #  not shut down properly
 #
 #  Install:
 #  copy this script to /sbin/overlayRoot.sh, make it executable and add "init=/sbin/overlayRoot.sh" to the
 #  cmdline.txt file in the raspbian image's boot partition.
-#  I strongly recommend to disable swapping before using this. it will work with swap but that just does
-#  not make sens as the swap file will be stored in the tempfs which again resides in the ram.
-#  run these commands on the booted raspberry pi BEFORE you set the init=/sbin/overlayRoot.sh boot option:
-#  sudo dphys-swapfile swapoff
-#  sudo dphys-swapfile uninstall
-#  sudo update-rc.d dphys-swapfile remove
 #
-#  To install software, run upgrades and do other changes to the raspberry setup, simply remove the init=
-#  entry from the cmdline.txt file and reboot, make the changes, add the init= entry and reboot once more.
 
 fail(){
-	echo $@
+    echo $@
     exec /sbin/init
     exit 0
 }
