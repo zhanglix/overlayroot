@@ -30,7 +30,7 @@ pi@raspberrypi:~ $ sudo e2label /dev/sda1 portable
 
 ```
 ### Effects
-If everything goes well, you will get something like this by run lsblk
+If everything goes well, run `lsblk` and you will get something like this  
 
 ```lang=shell
 pi@raspberrypi:~ $ lsblk
