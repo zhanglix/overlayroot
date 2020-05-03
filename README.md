@@ -14,6 +14,7 @@ Since we cann't not boot from ssd card for now, I managed to mount an directory 
 
 * copy overlayRoot.sh to /sbin/overlayRoot.sh
 * append "init=/sbin/overlayRoot.sh" to /boot/cmdline.txt
+* lable your ssd partition "portable". 
 * connect the ssd disk to the rapsberry pi
 * reboot and wait
 
@@ -23,6 +24,10 @@ pi@raspberrypi:~ $ ls /sbin/overlayRoot.sh
 
 pi@raspberrypi:~ $ cat /boot/cmdline.txt
 console=serial0,115200 console=tty1 root=PARTUUID=738a4d67-02 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait init=/sbin/overlayRoot.sh
+
+# assuming your ssd partition is /dev/sda1
+pi@raspberrypi:~ $ sudo e2label /dev/sda1 portable
+
 ```
 ### Effects
 If everything goes well, you will get something like this by run lsblk
