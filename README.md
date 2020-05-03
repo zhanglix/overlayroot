@@ -24,7 +24,7 @@ pi@raspberrypi:~ $ ls /sbin/overlayRoot.sh
 pi@raspberrypi:~ $ cat /boot/cmdline.txt
 console=serial0,115200 console=tty1 root=PARTUUID=738a4d67-02 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait init=/sbin/overlayRoot.sh
 ```
-### Effets
+### Effects
 If everything goes well, you will get something like this by run lsblk
 
 ```lang=shell
