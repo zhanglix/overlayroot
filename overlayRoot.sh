@@ -15,7 +15,7 @@
 #  2.0: only support original root partition labeld by 'rootfs' and ssd partition labeld by 'portable'.
 #       All writes are directed to 'portable' ssd partition so you can use your Raspian as a normal server.
 #
-#  Adapted 2020 by James Zhang to make Raspberry an low cost server for NAS and more.
+#  Adapted by James Zhang to make Raspberry an low cost server for NAS and more.
 # 
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
